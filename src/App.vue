@@ -2,6 +2,9 @@
     <div id="nav">
         <span class="nav-item"><router-link to="/">Home</router-link></span> |
         <span class="nav-item"><router-link to="/about">About</router-link></span> |
+        <span class="nav-item"><router-link to="/photo">Photo</router-link></span> |
+        <span class="nav-item"><router-link to="/collection">Collection</router-link></span> |
+        <span class="nav-item"><router-link to="/topic">Topic</router-link></span> |
         <span class="nav-item"><ModeChanger /></span>
     </div>
     <router-view/>
