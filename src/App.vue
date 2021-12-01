@@ -5,49 +5,19 @@
         <span class="nav-item"><ModeChanger /></span>
     </div>
     <router-view/>
+    <EndlessScroll />
 </template>
 
 <script>
 import ModeChanger from '@/components/ModeChanger.vue'
+import EndlessScroll from '@/components/EndlessScroll.vue'
 export default {
-    data() {
-        return {
-            inner: {
-                width: '',
-                height: ''
-            },
-            outer: {
-                width: '',
-                height: ''
-            }
-        }
-    },
     components: {
-        ModeChanger
+        ModeChanger,
+        EndlessScroll
     },
-    created () {
-        window.addEventListener("scroll", function () {
-//            this.outer.width = window.outerWidth
-//            this.outer.height = window.outerHeight
-//            this.inner.width = window.innerWidth
-//            this.inner.height = window.innerHeight
-//            console.log(window.outerWidth)
-//            console.log(window.outerHeight)
-//            console.log(window.innerWidth)
-//            console.log(window.innerHeight)
-//            console.log(window.scrollY)
-//            this.$store.dispatch('setScrollY', { val: window.scrollY })
-        });
-	},
-
-	onUnmounted () {
-        window.removeEventListener("scroll", function () {
-            console.log('fire');
-        });
-	}
 }
 </script>
-
 
 <style lang="scss" scoped>
 #app {

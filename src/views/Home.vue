@@ -13,6 +13,11 @@
 
     export default {
         name: 'Home',
+        data () {
+            return {
+                keywords: ''
+            }
+        },
         components: {
             SearchBox,
             PhotoList

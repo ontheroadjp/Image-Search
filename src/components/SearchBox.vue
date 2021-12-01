@@ -2,11 +2,11 @@
     <div class="search-panel">
         <div class="search-components">
             <input class="search-box"
-                v-model='keywords'
+                v-model='input'
                 placeholder="search"
             >
             <button class="search-btn"
-                @click="handleClick"
+                @click="onClick"
             >Search</button>
         </div>
     </div>
@@ -18,13 +18,25 @@ import UnsplashApi from '../http/UnsplashApi'
 export default {
     data() {
         return {
-            keywords: '',
-            per_page: 50,
-            page: 1,
+            input: '',
         }
     },
+//    emits: [
+//        'onSearch'
+//    ],
+    computed: {
+        keywords: function () {
+            return this.$store.state.search.keywords
+        },
+        page: function () {
+            return this.$store.state.search.page
+        },
+        per_page: function () {
+            return this.$store.state.search.per_page
+        },
+    },
     methods: {
-        handleClick: function () {
+        onClick: function () {
             console.log('load search()...')
             switch( this.$store.state.mode ) {
                 case 1:
@@ -34,6 +46,11 @@ export default {
                     this.collectionSearch()
                     break;
             }
+            this.$store.dispatch('setSearchCondition', {
+                keywords: this.input,
+                page: 1,
+                per_page: 30
+            })
         },
         photoSearch: function () {
             console.log('photoSearch')
@@ -46,7 +63,7 @@ export default {
                 this.$store.dispatch( 'setPhotoSearchJson', {
                     value: response.data.results
                 })
-                this.page += 1
+//                this.page += 1
             })
         },
         collectionSearch: function () {
@@ -60,7 +77,7 @@ export default {
                 this.$store.dispatch( 'setCollectionSearchJson', {
                     value: response.data.results
                 })
-                this.page += 1
+//                this.page += 1
             })
         },
     },
