@@ -1,26 +1,32 @@
 <template>
     <div class="home">
-        <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
+        <img alt="Vue logo" src="../assets/logo.png">
         <SearchBox />
-        <PhotoPanel />
+        <!-- <PhotoPanel /> -->
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
     import SearchBox from '@/components/SearchBox.vue'
-    import PhotoPanel from '@/components/PhotoPanel.vue'
+//    import PhotoPanel from '@/components/PhotoPanel.vue'
 
     export default {
         name: 'Home',
-        data () {
-            return {
-                keywords: ''
-            }
-        },
+//        data () {
+//            return {
+//                keywords: ''
+//            }
+//        },
         components: {
             SearchBox,
-            PhotoPanel
+//            PhotoPanel
         },
     }
 </script>
+
+<style lang='scss' scoped>
+.home {
+    text-align: center;
+}
+</style>
