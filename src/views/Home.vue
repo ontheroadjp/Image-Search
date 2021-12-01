@@ -2,14 +2,14 @@
     <div class="home">
         <!-- <img alt="Vue logo" src="../assets/logo.png"> -->
         <SearchBox />
-        <PhotoList />
+        <PhotoPanel />
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
     import SearchBox from '@/components/SearchBox.vue'
-    import PhotoList from '@/components/PhotoList.vue'
+    import PhotoPanel from '@/components/PhotoPanel.vue'
 
     export default {
         name: 'Home',
@@ -20,7 +20,7 @@
         },
         components: {
             SearchBox,
-            PhotoList
+            PhotoPanel
         },
     }
 </script>

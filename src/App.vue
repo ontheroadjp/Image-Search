@@ -5,16 +5,13 @@
         <span class="nav-item"><ModeChanger /></span>
     </div>
     <router-view/>
-    <EndlessScroll />
 </template>
 
 <script>
 import ModeChanger from '@/components/ModeChanger.vue'
-import EndlessScroll from '@/components/EndlessScroll.vue'
 export default {
     components: {
         ModeChanger,
-        EndlessScroll
     },
 }
 </script>
@@ -43,6 +40,4 @@ export default {
         margin: 0 20px;
     }
 }
-
-
 </style>

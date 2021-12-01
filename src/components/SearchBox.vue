@@ -21,9 +21,6 @@ export default {
             input: '',
         }
     },
-//    emits: [
-//        'onSearch'
-//    ],
     computed: {
         keywords: function () {
             return this.$store.state.search.keywords
@@ -38,47 +35,29 @@ export default {
     methods: {
         onClick: function () {
             console.log('load search()...')
+            const options = {
+                query: this.input,
+                per_page: this.per_page,
+                page: this.page
+            }
+            this.$store.dispatch('setSearchCondition', options)
             switch( this.$store.state.mode ) {
                 case 1:
-                    this.photoSearch()
+                    UnsplashApi.photoSearch(options).then((response) => {
+                        this.setJson(response.data.results)
+                    })
                     break;
                 case 2:
-                    this.collectionSearch()
+                    UnsplashApi.collectionSearch(options).then((response) => {
+                        this.setJson(response.data.results)
+                    })
                     break;
             }
-            this.$store.dispatch('setSearchCondition', {
-                keywords: this.input,
-                page: 1,
-                per_page: 30
-            })
         },
-        photoSearch: function () {
-            console.log('photoSearch')
-            UnsplashApi.photoSearch({
-                query: this.keywords,
-                per_page: this.per_page,
-                page: this.page
-            }).then( (response) => {
-                console.log(response.data.results)
-                this.$store.dispatch( 'setPhotoSearchJson', {
-                    value: response.data.results
-                })
-//                this.page += 1
-            })
-        },
-        collectionSearch: function () {
-            console.log('collectionSearch')
-            UnsplashApi.collectionSearch({
-                query: this.keywords,
-                per_page: this.per_page,
-                page: this.page
-            }).then( (response) => {
-                console.log(response.data.results)
-                this.$store.dispatch( 'setCollectionSearchJson', {
-                    value: response.data.results
-                })
-//                this.page += 1
-            })
+        setJson: function (json) {
+            console.log(json)
+//            this.$store.dispatch('setJson', { json: json })
+            this.$store.dispatch('appendJson', { json: json })
         },
     },
 }

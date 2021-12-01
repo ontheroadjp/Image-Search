@@ -24,34 +24,30 @@ export default {
     methods: {
         onChanged: function () {
             console.log('change mode ...')
-            this.$store.dispatch('setMode', {val: this.selected});
+            this.$store.dispatch('changeMode', this.selected);
+            const options = {
+                per_page: 30,
+                page: 1
+            }
             switch (this.selected) {
                 case 3:
-                    UnsplashApi.photoList({
-                        per_page: 30,
-                        page: 1
-                    }).then( (response) => {
-                        console.log(response.data)
-                        this.$store.dispatch( 'setPhotoList', {
-                            value: response.data
-                        })
-    //                    this.page += 1
+                    UnsplashApi.photoList(options).then( (response) => {
+                        this.appendJson(response)
                     })
                     break;
                 case 4:
-                    UnsplashApi.collectionList({
-                        per_page: 30,
-                        page: 1
-                    }).then( (response) => {
-                        console.log(response.data)
-                        this.$store.dispatch( 'setCollectionListJson', {
-                            value: response.data
-                        })
-    //                    this.page += 1
+                    UnsplashApi.collectionList(options).then( (response) => {
+                        this.appendJson(response)
                     })
                     break;
             }
         },
+        appendJson: function (response) {
+            console.log(response.data)
+            this.$store.dispatch( 'appendJson', {
+                json: response.data
+            })
+        }
     },
 }
 </script>
