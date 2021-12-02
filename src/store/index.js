@@ -32,10 +32,7 @@ export default createStore({
         json: {
             photos: [],
             collections: [],
-//            photoSearch: [],
-//            photoList: [],
-//            collectionSearch: [],
-//            collectionList: [],
+            work: [],
         },
     },
     mutations: {
@@ -54,49 +51,23 @@ export default createStore({
                     payload.append
                         ? state.json.photos.push(...payload.json)
                         : state.json.photos = payload.json
-//                        ? state.json.photos.push(...payload.json)
-//                        : state.json.photos = payload.json
                     break
                 case 2:
                 case 4:
                     payload.append
                         ? state.json.collections.push(...payload.json)
                         : state.json.collections = payload.json
-//                        ? state.json.collections.push(...payload.json)
-//                        : state.json.collections = payload.json
                     break
-//                case 3:
-//                    payload.append
-//                        ? state.json.photos.push(...payload.json)
-//                        : state.json.photos = payload.json
-//                    break
-//                case 4:
-//                    payload.append
-//                        ? state.json.collections.push(...payload.json)
-//                        : state.json.collections = payload.json
-//                    break
+                case 'work':
+                    payload.append
+                        ? state.json.work.push(...payload.json)
+                        : state.json.work = payload.json
+                    break
             }
             payload.append
                 ? state.search.page += 1
                 : state.search.page = 1
         },
-//        appendJson (state, payload) {
-//            switch(state.mode) {
-//                case 1:
-//                    state.json.photos.push(...payload.json)
-//                    break
-//                case 2:
-//                    state.json.collections.push(...payload.json)
-//                    break
-//                case 3:
-//                    state.json.photos.push(...payload.json)
-//                    break
-//                case 4:
-//                    state.json.collections.push(...payload.json)
-//                    break
-//            }
-//            state.search.page += 1
-//        },
     },
     actions: {
         changeMode(context, payload) {
@@ -108,9 +79,6 @@ export default createStore({
         setJson(context, payload) {
             context.commit('setJson', payload)
         },
-//        appendJson(context, payload) {
-//            context.commit('appendJson', payload)
-//        },
     },
     getters: {
         getUrls: (state) => {
@@ -118,15 +86,18 @@ export default createStore({
                 case 1:
                 case 3:
                     return getPhotoUrls(state.json.photos)
-//                    return getPhotoUrls(state.json.photos)
                 case 2:
                 case 4:
                     return getCollectionUrls(state.json.collections)
-//                    return getCollectionUrls(state.json.collections)
-//                case 3:
-//                    return getPhotoUrls(state.json.photos)
-//                case 4:
-//                    return getCollectionUrls(state.json.collections)
+                case 'work':
+                    return state.json.work
+//                    return {
+//                        description: state.json.work.description,
+//                        urls: state.json.work.urls,
+//                        tags: state.json.work.tags,
+//                        exif: state.json.work.exif,
+//                        color: state.json.work.color,
+//                    }
             }
         },
     },

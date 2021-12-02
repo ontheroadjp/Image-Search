@@ -14,23 +14,26 @@ class UnsplashApi {
         console.log(url + options.slice(1))
         return axios.get(url + options.slice(1))
     }
-    photoList (payload) {
-        return this.fetch('/photos?', payload)
+    photoList (options) {
+        return this.fetch('/photos?', options)
     }
-    photoSearch (payload) {
-        return this.fetch('/search/photos?', payload)
+    photoSearch (options) {
+        return this.fetch('/search/photos?', options)
     }
-    collectionList (payload) {
-        return this.fetch('/collections?', payload)
+    photos (id, options) {
+        return this.fetch('/photos/' + id + '?', options)
     }
-    collectionSearch (payload) {
-        return this.fetch('/search/collections?', payload)
+    collectionList (options) {
+        return this.fetch('/collections?', options)
     }
-//    searchUsers (payload) {
-//        return this.fetch('/search/users?', payload)
+    collectionSearch (options) {
+        return this.fetch('/search/collections?', options)
+    }
+//    searchUsers (options) {
+//        return this.fetch('/search/users?', options)
 //    }
-//    random (payload) {
-//        return this.fetch('/photos/random?', payload)
+//    random (options) {
+//        return this.fetch('/photos/random?', options)
 //    }
 }
 

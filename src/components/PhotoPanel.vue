@@ -6,19 +6,15 @@
     <div v-if="(getMode == 2 || getMode == 4) && getUrls"
     ><CollectionView :urls='getUrls' /></div>
 
-    <!--
-    <div v-if="getMode == 3 && getUrls"
-    ><PhotoView :urls='getUrls' /></div>
-
-    <div v-if="getMode == 4 && getUrls"
-    ><CollectionView :urls='getUrls' /></div>
-    -->
+    <div v-if="(getMode == 'work')"
+    ><WorkView :urls='getUrls' /></div>
 </div>
 </template>
 
 <script>
 import PhotoView from './PhotoPanel/PhotoView'
 import CollectionView from './PhotoPanel/CollectionView'
+import WorkView from './PhotoPanel/WorkView'
 import UnsplashApi from '../http/UnsplashApi'
 
 export default {
@@ -33,6 +29,7 @@ export default {
     components: {
         PhotoView,
         CollectionView,
+        WorkView,
     },
     computed: {
         getMode: function () {
