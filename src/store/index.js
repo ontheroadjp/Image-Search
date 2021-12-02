@@ -81,7 +81,7 @@ export default createStore({
         },
     },
     getters: {
-        getUrls: (state) => {
+        getJson: (state) => {
             switch(state.mode) {
                 case 1:
                 case 3:
@@ -91,13 +91,6 @@ export default createStore({
                     return getCollectionUrls(state.json.collections)
                 case 'work':
                     return state.json.work
-//                    return {
-//                        description: state.json.work.description,
-//                        urls: state.json.work.urls,
-//                        tags: state.json.work.tags,
-//                        exif: state.json.work.exif,
-//                        color: state.json.work.color,
-//                    }
             }
         },
     },

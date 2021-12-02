@@ -30,7 +30,7 @@
         name: 'Work',
         computed: {
             json: function () {
-                return this.$store.getters.getUrls
+                return this.$store.getters.getJson
             },
             description: function () {
                 if( this.json.description != null ) {
