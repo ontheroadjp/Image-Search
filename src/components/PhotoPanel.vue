@@ -1,16 +1,18 @@
 <template>
 <div class="photo-panel">
-    <div v-if="getMode == 1 && getUrls"
+    <div v-if="(getMode == 1 || getMode == 3) && getUrls"
     ><PhotoView :urls='getUrls' /></div>
 
-    <div v-if="getMode == 2 && getUrls"
+    <div v-if="(getMode == 2 || getMode == 4) && getUrls"
     ><CollectionView :urls='getUrls' /></div>
 
+    <!--
     <div v-if="getMode == 3 && getUrls"
     ><PhotoView :urls='getUrls' /></div>
 
     <div v-if="getMode == 4 && getUrls"
     ><CollectionView :urls='getUrls' /></div>
+    -->
 </div>
 </template>
 
@@ -52,8 +54,9 @@ export default {
                     page: this.$store.state.search.page
                 }).then( (response) => {
                     console.log(response.data.results)
-                    this.$store.dispatch( 'appendJson', {
-                        json: response.data.results
+                    this.$store.dispatch( 'setJson', {
+                        json: response.data.results,
+                        append: true
                     })
                 })
             }

@@ -5,7 +5,7 @@ import axios from "./http-common";
 const client_id = '1UYpVsCG-au8N2jThq4UVjnOZ1Uta_JgMI8g5kM7sfY'
 
 class UnsplashApi {
-    get (url, payload) {
+    fetch (url, payload) {
         let options = ''
         payload.client_id = client_id
         Object.keys(payload).forEach( function (value) {
@@ -15,23 +15,23 @@ class UnsplashApi {
         return axios.get(url + options.slice(1))
     }
     photoList (payload) {
-        return this.get('/photos?', payload)
+        return this.fetch('/photos?', payload)
     }
     photoSearch (payload) {
-        return this.get('/search/photos?', payload)
+        return this.fetch('/search/photos?', payload)
     }
     collectionList (payload) {
-        return this.get('/collections?', payload)
+        return this.fetch('/collections?', payload)
     }
     collectionSearch (payload) {
-        return this.get('/search/collections?', payload)
+        return this.fetch('/search/collections?', payload)
     }
 //    searchUsers (payload) {
-//        return this.get('/search/users?', payload)
+//        return this.fetch('/search/users?', payload)
 //    }
-    random (payload) {
-        return this.get('/photos/random?', payload)
-    }
+//    random (payload) {
+//        return this.fetch('/photos/random?', payload)
+//    }
 }
 
 export default new UnsplashApi();

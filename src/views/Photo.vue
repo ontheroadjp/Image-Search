@@ -27,7 +27,7 @@
                 }
                 UnsplashApi.photoList(options).then((response) => {
                     console.log(response.data)
-                    this.$store.dispatch('appendJson', {
+                    this.$store.dispatch('setJson', {
                         json: response.data
                     })
                 })

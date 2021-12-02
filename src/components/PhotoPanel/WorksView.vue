@@ -1,24 +1,6 @@
+
 <template>
-    <masonry-wall
-        :items="urls"
-        :ssr-columns="1"
-        :column-width="200"
-        :gap="5"
-    >
-        <template #default="{ item }">
-            <div class="hover">
-                <div class="hover-img">
-                    <img :src="item.urls.thumb" style="width: 100%;"/>
-                </div>
-                <a href="/works/{{ item.id }}">
-                    <div class="hover-text">
-                        <p class="text1">{{ item.desc ? item.desc : desc }}</p>
-                        <p class="text2">{{ item.alt_desc }}</p>
-                    </div>
-                </a>
-            </div>
-        </template>
-    </masonry-wall>
+    <div></div>
 </template>
 
 <script>

@@ -1,5 +1,26 @@
 import { createStore } from 'vuex'
 
+const getPhotoUrls = (array) => {
+    if( !array?.length ) { return [] }
+    return array.map(function(val) {
+        return {
+            id: val.id,
+            urls: val.urls,
+            desc: val.description,
+            alt_desc: val.alt_description
+        }
+    })
+}
+
+const getCollectionUrls = (array) => {
+    if( !array?.length ) { return [] }
+    return array.map(function(val) {
+        return val.preview_photos.map( function(val2) {
+            return val2.urls
+        })
+    })
+}
+
 export default createStore({
     state: {
         mode: 1,
@@ -9,10 +30,12 @@ export default createStore({
             per_page: 30
         },
         json: {
-            photoSearch: [],
-            photoList: [],
-            collectionSearch: [],
-            collectionList: [],
+            photos: [],
+            collections: [],
+//            photoSearch: [],
+//            photoList: [],
+//            collectionSearch: [],
+//            collectionList: [],
         },
     },
     mutations: {
@@ -24,23 +47,56 @@ export default createStore({
             state.search.page = payload.page
             state.search.per_page = payload.per_page
         },
-        appendJson (state, payload) {
+        setJson (state, payload) {
             switch(state.mode) {
                 case 1:
-                    state.json.photoSearch.push(...payload.json)
+                case 3:
+                    payload.append
+                        ? state.json.photos.push(...payload.json)
+                        : state.json.photos = payload.json
+//                        ? state.json.photos.push(...payload.json)
+//                        : state.json.photos = payload.json
                     break
                 case 2:
-                    state.json.collectionSearch.push(...payload.json)
-                    break
-                case 3:
-                    state.json.photoList.push(...payload.json)
-                    break
                 case 4:
-                    state.json.collectionList.push(...payload.json)
+                    payload.append
+                        ? state.json.collections.push(...payload.json)
+                        : state.json.collections = payload.json
+//                        ? state.json.collections.push(...payload.json)
+//                        : state.json.collections = payload.json
                     break
+//                case 3:
+//                    payload.append
+//                        ? state.json.photos.push(...payload.json)
+//                        : state.json.photos = payload.json
+//                    break
+//                case 4:
+//                    payload.append
+//                        ? state.json.collections.push(...payload.json)
+//                        : state.json.collections = payload.json
+//                    break
             }
-            state.search.page += 1
+            payload.append
+                ? state.search.page += 1
+                : state.search.page = 1
         },
+//        appendJson (state, payload) {
+//            switch(state.mode) {
+//                case 1:
+//                    state.json.photos.push(...payload.json)
+//                    break
+//                case 2:
+//                    state.json.collections.push(...payload.json)
+//                    break
+//                case 3:
+//                    state.json.photos.push(...payload.json)
+//                    break
+//                case 4:
+//                    state.json.collections.push(...payload.json)
+//                    break
+//            }
+//            state.search.page += 1
+//        },
     },
     actions: {
         changeMode(context, payload) {
@@ -49,40 +105,29 @@ export default createStore({
         setSearchCondition(context, payload) {
             context.commit('setSearchCondition', payload)
         },
-        appendJson(context, payload) {
-            context.commit('appendJson', payload)
+        setJson(context, payload) {
+            context.commit('setJson', payload)
         },
+//        appendJson(context, payload) {
+//            context.commit('appendJson', payload)
+//        },
     },
     getters: {
-        getUrls: (state, getters) => {
+        getUrls: (state) => {
             switch(state.mode) {
                 case 1:
-                    return getters.getPhotoUrls(state.json.photoSearch)
-                case 2:
-                    return getters.getCollectionUrls(state.json.collectionSearch)
                 case 3:
-                    return getters.getPhotoUrls(state.json.photoList)
+                    return getPhotoUrls(state.json.photos)
+//                    return getPhotoUrls(state.json.photos)
+                case 2:
                 case 4:
-                    return getters.getCollectionUrls(state.json.collectionList)
+                    return getCollectionUrls(state.json.collections)
+//                    return getCollectionUrls(state.json.collections)
+//                case 3:
+//                    return getPhotoUrls(state.json.photos)
+//                case 4:
+//                    return getCollectionUrls(state.json.collections)
             }
-        },
-        getPhotoUrls: () => (array) => {
-            if( !array?.length ) { return [] }
-            return array.map(function(val) {
-                return {
-                    urls: val.urls,
-                    desc: val.description,
-                    alt_desc: val.alt_description
-                }
-            })
-        },
-        getCollectionUrls: () => (array) => {
-            if( !array?.length ) { return [] }
-            return array.map(function(val) {
-                return val.preview_photos.map( function(val2) {
-                    return val2.urls
-                })
-            })
         },
     },
     modules: {

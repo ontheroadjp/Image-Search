@@ -43,11 +43,13 @@ export default {
             this.$store.dispatch('setSearchCondition', options)
             switch( this.$store.state.mode ) {
                 case 1:
+                case 3:
                     UnsplashApi.photoSearch(options).then((response) => {
                         this.setJson(response.data.results)
                     })
                     break;
                 case 2:
+                case 4:
                     UnsplashApi.collectionSearch(options).then((response) => {
                         this.setJson(response.data.results)
                     })
@@ -56,8 +58,8 @@ export default {
         },
         setJson: function (json) {
             console.log(json)
-//            this.$store.dispatch('setJson', { json: json })
-            this.$store.dispatch('appendJson', { json: json })
+            this.$store.dispatch('setJson', { json: json })
+//            this.$store.dispatch('appendJson', { json: json })
         },
     },
 }
