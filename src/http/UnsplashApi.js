@@ -29,6 +29,9 @@ class UnsplashApi {
     searchCollection (options) {
         return this.fetch('/search/collections?', options)
     }
+    photoDownload (id, options) {
+        return this.fetch('/photos/' + id + '/download?', options)
+    }
 //    searchUser (options) {
 //        return this.fetch('/search/users?', options)
 //    }

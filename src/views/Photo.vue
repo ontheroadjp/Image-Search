@@ -60,11 +60,7 @@ export default {
     methods: {
         onClick: function (id) {
             this.$router.push({ path: '/photo/' + id });
-            const options = {
-                per_page: 10,
-                page: 1
-            }
-            UnsplashApi.fetchPhoto(id, options).then((response) => {
+            UnsplashApi.fetchPhoto(id, {}).then((response) => {
                 console.log(response.data)
                 this.$store.dispatch('setJson', { json: response.data })
             })
