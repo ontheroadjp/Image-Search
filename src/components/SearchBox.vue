@@ -34,7 +34,6 @@ export default {
     },
     methods: {
         onClick: function () {
-            console.log('load search()...')
             const options = {
                 query: this.input,
                 per_page: this.per_page,
@@ -44,13 +43,13 @@ export default {
             switch( this.$store.state.mode ) {
                 case 1:
                 case 3:
-                    UnsplashApi.photoSearch(options).then((response) => {
+                    UnsplashApi.searchPhoto(options).then((response) => {
                         this.setJson(response.data.results)
                     })
                     break;
                 case 2:
-                case 4:
-                    UnsplashApi.collectionSearch(options).then((response) => {
+                case 'collection':
+                    UnsplashApi.searchCollection(options).then((response) => {
                         this.setJson(response.data.results)
                     })
                     break;
@@ -59,7 +58,6 @@ export default {
         setJson: function (json) {
             console.log(json)
             this.$store.dispatch('setJson', { json: json })
-//            this.$store.dispatch('appendJson', { json: json })
         },
     },
 }

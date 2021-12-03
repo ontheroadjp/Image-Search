@@ -12,12 +12,16 @@
                 <div class="hover-img">
                     <img :src="item.urls.thumb" style="width: 100%;"/>
                 </div>
-                    <a @click='onClick(item.id)'>
-                        <div class="hover-text">
-                            <p class="text1">{{ item.desc ? item.desc : description }}</p>
-                            <p class="text2">{{ item.alt_desc }}</p>
-                        </div>
-                    </a>
+                <a @click='onClick(item.id)'>
+                    <div class="hover-text">
+                        <p class="text1">
+                            {{ item.desc ? item.desc : description }}
+                        </p>
+                        <p class="text2">
+                            {{ item.alt_desc }}
+                        </p>
+                    </div>
+                </a>
             </div>
         </template>
     </masonry-wall>
@@ -43,9 +47,6 @@ export default {
         SearchBox,
     },
     computed: {
-//        mode: function () {
-//            return this.$store.state.mode
-//        },
         json: function () {
             return this.$store.getters.getJson
         },
@@ -58,7 +59,15 @@ export default {
     },
     methods: {
         onClick: function (id) {
-            this.$router.push({path: '/photo/' + id})
+            this.$router.push({ path: '/photo/' + id });
+            const options = {
+                per_page: 10,
+                page: 1
+            }
+            UnsplashApi.fetchPhoto(id, options).then((response) => {
+                console.log(response.data)
+                this.$store.dispatch('setJson', { json: response.data })
+            })
         }
     },
     created() {
@@ -69,7 +78,7 @@ export default {
                 per_page: 30,
                 page: 1
             }
-            UnsplashApi.photoList(options).then((response) => {
+            UnsplashApi.fetchPhotos(options).then((response) => {
                 console.log(response.data)
                 this.$store.dispatch('setJson', {
                     json: response.data
@@ -81,8 +90,6 @@ export default {
         window.addEventListener("scroll", () => {
             this.scroll.clientHeight = this.$el.clientHeight
             this.scroll.y = window.scrollY
-//            console.log(this.$el.clientHeight)
-//            console.log(this.$el)
         });
     },
     onUnmounted () {
@@ -93,7 +100,7 @@ export default {
     watch: {
         isFire: function () {
             if( this.isFire ) {
-                UnsplashApi.photoSearch({
+                UnsplashApi.fetchPhotoSearch({
                     query: this.$store.state.search.keywords,
                     per_page: this.$store.state.search.per_page,
                     page: this.$store.state.search.page
@@ -137,7 +144,6 @@ export default {
     padding: 0 20px;
 }
 .hover:hover .hover-text {
-    /*不透明にして表示*/
     opacity: 1;
 }
 </style>

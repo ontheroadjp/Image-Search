@@ -28,21 +28,31 @@ export default {
             return this.$store.getters.getJson
         },
     },
-    created() {
-        this.$store.dispatch('changeMode', 4);
-        console.log('Collection view created ...')
-        if( this.$store.getters.getJson.length == 0 ) {
-            const options = {
-                per_page: 30,
-                page: 1
-            }
-            UnsplashApi.collectionList(options).then((response) => {
-                console.log(response.data)
-                this.$store.dispatch('setJson', {
-                    json: response.data
+    methods: {
+        fetchCollections: function () {
+            if( this.$store.getters.getJson.length == 0 ) {
+                const options = {
+                    per_page: 30,
+                    page: 1
+                }
+                UnsplashApi.fetchCollections(options).then((response) => {
+                    console.log(response.data)
+                    this.$store.dispatch('setJson', {
+                        json: response.data
+                    })
                 })
-            })
+            }
         }
+    },
+    created() {
+        this.$store.dispatch('changeMode', 'collection');
+        console.log('Collection view created ...')
+        this.fetchCollections()
+    },
+    updated() {
+        this.$store.dispatch('changeMode', 'collection');
+        console.log('Collection view updated ...')
+        this.fetchCollections()
     }
 }
 </script>

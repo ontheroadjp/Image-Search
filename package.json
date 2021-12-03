@@ -11,6 +11,7 @@
     "@yeger/vue-masonry-wall": "^3.0.10",
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
+    "rgbaster": "^2.1.1",
     "v-simple-infinite-scroll": "^1.1.4",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

@@ -53,7 +53,7 @@ export default createStore({
                         : state.json.photos = payload.json
                     break
                 case 2:
-                case 4:
+                case 'collection':
                     payload.append
                         ? state.json.collections.push(...payload.json)
                         : state.json.collections = payload.json
@@ -87,7 +87,7 @@ export default createStore({
                 case 3:
                     return getPhotoUrls(state.json.photos)
                 case 2:
-                case 4:
+                case 'collection':
                     return getCollectionUrls(state.json.collections)
                 case 'work':
                     return state.json.work
