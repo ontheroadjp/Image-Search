@@ -1,8 +1,20 @@
 <template>
-    <h1>{{ description }}</h1>
+    <h1 style="text-align: center;">{{ description }}</h1>
     <div>
-        <div>
-            <img :src="isJsonReady ? json.urls.small : ''" />
+        <div style="display: flex; justify-content: space-evenly">
+            <div>
+                <img :src="isJsonReady ? json.urls.small : ''" />
+            </div>
+            <div>
+                <div class="info-panel">
+                    <div>{{ json.width }} x {{ json.height }}</div>
+                    <div>created at {{ json.created_at }}</div>
+                </div>
+                <div class="user-panel">
+                    <img :src="json.user.profile_image.medium" style="border-radius: 50px;"/>
+                    <div style="margin-left: 15px; line-height: 1.3rem;">Photo by<br>{{ json.user.name }} @{{ json.user.location }}</div>
+                </div>
+            </div>
         </div>
         <div class="download">
             <button id="download" class="download-btn" @click="onClickDownload()">Download</button>
@@ -200,6 +212,12 @@ img {
     height: auto;
     max-width: 100%;
     max-height: 100%;
+}
+.user-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
 }
 .download {
     margin: 20px;
