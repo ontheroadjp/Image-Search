@@ -1,21 +1,11 @@
 <template>
     <h1>{{ description }}</h1>
     <div>
-        <div class="img-frame">
-            <img :src="isJsonReady ? json.urls.regular : ''" />
-        </div>
-        <div class="rgb-color-panel">
-            <template v-if="rgbColors.length != 0" class="rgb-color-panel">
-                <template v-for="(c, index) in style.rgbColors" :key="index">
-                    <div class="rgb-color-item" :style="style.rgbColors[index]"></div>
-                </template>
-            </template>
-            <div v-else>
-                <div class="color-analysis" :style="style.tag" @click="onClickColorAnalysis">Color Analysis</div>
-            </div>
+        <div>
+            <img :src="isJsonReady ? json.urls.small : ''" />
         </div>
         <div class="download">
-            <button id="download" @click="onClickDownload()">Download</button>
+            <button id="download" class="download-btn" @click="onClickDownload()">Download</button>
         </div>
         <div class="rgb-color-panel">
             <template v-if="rgbColors.length != 0" class="rgb-color-panel">
@@ -24,36 +14,36 @@
                 </template>
             </template>
             <div v-else>
-                <div class="color-analysis" :style="style.tag" @click="onClickColorAnalysis">Color Analysis</div>
+                <button class="color-analysis-btn"
+                    :style="style.tag"
+                    @click="onClickColorAnalysis"
+                >Color Analysis</button>
             </div>
         </div>
-        <div class="rgb-color-panel">
-            <template v-if="rgbColors.length != 0" class="rgb-color-panel">
-                <template v-for="(c, index) in style.rgbColors" :key="index">
-                    <div class="rgb-color-item" :style="style.rgbColors[index]"></div>
-                </template>
-            </template>
-            <div v-else>
-                <div class="color-analysis" :style="style.tag" @click="onClickColorAnalysis">Color Analysis</div>
+        <div class="exif-panel">
+            <div class="exif-box">
+                <div>Model</div><div>{{ exif.model }}</div>
+            </div>
+            <div class="exif-box">
+                <div>Focul Length</div><div>{{ exif.focul_length }}</div>
+            </div>
+            <div class="exif-box">
+                <div>Speed</div><div>{{ exif.exposure_time }}</div>
+            </div>
+            <div class="exif-box">
+                <div>Aperture</div><div>{{ exif.aperture }}</div>
+            </div>
+            <div class="exif-box">
+                <div>ISO</div><div>{{ exif.iso }}</div>
             </div>
         </div>
-        <div class="exif">
-            <table style="margin: 20px; line-height: 2rem;">
-                <tr><td style="width: 125px;">Model</td><td>{{ exif.model }}</td></tr>
-                <tr><td>Focul Length</td><td>{{ exif.focul_length }}</td></tr>
-                <tr><td>Speed</td><td>{{ exif.exposure_time }}</td></tr>
-                <tr><td>Aperture</td><td>{{ exif.aperture }}</td></tr>
-                <tr><td>ISO</td><td>{{ exif.iso }}</td></tr>
-            </table>
-        </div>
-        <div class="tag-frame">
+        <div class="tag-panel">
             <template v-for="(tag, index) in json.tags" :key="index">
                 <div class="tag"
-                    :class="tag"
                     :style='style.tag'
                     @click='onClickTag(tag.title)'
                     @mouseover="onMouseOver"
-                    @mouseOut="onMouseOut"
+                    @mouseout="onMouseOut"
                 >{{ tag.title }}
                 </div>
             </template>
@@ -142,7 +132,7 @@ export default {
             }
         },
         onClickColorAnalysis: function () {
-            RGBaster(this.json.urls.regular).then((result) => {
+            RGBaster(this.json.urls.small).then((result) => {
                 this.rgbColors = result
             })
         },
@@ -175,10 +165,14 @@ export default {
                 this.$store.dispatch('setJson', { json: response.data.results })
             })
         },
-        onMouseOver: function () {
+        onMouseOver: function (e) {
+            e.target.style.backgroundColor = 'gray'
+            e.target.style.color = 'white'
         },
-        onMouseOut: function () {
-        },
+        onMouseOut: function (e) {
+            e.target.style.backgroundColor = this.json.color
+            e.target.style.color = this.blackOrWhite(this.json.color)
+        }
     },
     created() {
         console.log('Work view created ...')
@@ -191,10 +185,13 @@ export default {
             })
         }
     },
+    updated() {
+        this.onClickColorAnalysis()
+    }
 }
 </script>
 <style lang='scss' scoped>
-.img-frame {
+.img-panel {
     height: 600px;
     width: 800px;
 }
@@ -204,14 +201,18 @@ img {
     max-width: 100%;
     max-height: 100%;
 }
-.color-analysis {
+.download {
+    margin: 20px;
+}
+.color-analysis-btn, .download-btn {
     --color: f5f5f5;
     background-color: var(--color);
     padding: 5px 20px;
-    width: 100px;
+    width: 200px;
     line-height: 2rem;
     border-radius: 5px;
     cursor: pointer;
+    border: 1px solid #ccc;
 }
 .rgb-color-panel {
     display: flex;
@@ -224,12 +225,22 @@ img {
         margin-right: 5px;
     }
 }
-.exif {
-    background-color: #e9e9e9;
+.exif-panel {
+    background-color: #f9f7f7;
+    display: flex;
+    justify-content: space-around;
+    padding: 5px;
+    .exif-box {
+        display: flex;
+        flex-flow: column;
+        line-height: 2rem;
+        text-align: center;
+    }
 }
 
-.tag-frame {
+.tag-panel {
     width: 100%;
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -242,5 +253,9 @@ img {
     margin: 5px;
     padding: 5px 15px;
     cursor: pointer;
+    &:hover {
+        background-color: gray;
+        color: white;
+    }
 }
 </style>
